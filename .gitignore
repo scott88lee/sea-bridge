@@ -1,3 +1,7 @@
+# Enviroment files
+.env
+.ENV
+
 # Logs
 logs
 *.log
