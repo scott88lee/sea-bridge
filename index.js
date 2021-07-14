@@ -3,6 +3,8 @@ require('dotenv').config()
 const express = require('express');
 const handlebars = require('express-handlebars');
 const db = require('./config/db');
+const fs = require('fs');
+const https = require('https');
 
 const app = express();
  
@@ -33,6 +35,13 @@ app.get('*', (req, res) => {
     res.send('err404');
 });
 
+
 // LISTEN
-const port = process.env.HTTP_PORT || 4000;
-app.listen(port, () => {console.log("HTTP on port: " + port) });
+const port = process.env.HTTP_PORT || 8080;
+
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  }, app)
+  .listen(port,  () => {console.log("HTTP on port: " + port)
+})
