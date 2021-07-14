@@ -1,4 +1,5 @@
 // IMPORTS
+require('dotenv').config()
 const express = require('express');
 const handlebars = require('express-handlebars');
 const db = require('./config/db');
@@ -22,7 +23,7 @@ app.engine('hbs', handlebars(hbsConfig));
 
 // ROUTES
 app.use('/', require('./routes/index'));
-// app.use('/products', require('./routes/products'));
+app.use('/webhooks', require('./routes/webhooks'));
 // app.use('/purchases', require('./routes/purchases'));
 // app.use('/sales', require('./routes/sales'));
 // app.use('/reports', require('./routes/reports'));
@@ -33,5 +34,5 @@ app.get('*', (req, res) => {
 });
 
 // LISTEN
-const port = process.env.PORT || 3000;
+const port = process.env.HTTP_PORT || 4000;
 app.listen(port, () => {console.log("HTTP on port: " + port) });

@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-//const indexController = require('../controllers/index');
+const indexController = require('../controllers/index');
 //const auth = require('../auth');
+const db = require('../config/db')
 
 // ROUTES
-router.get('/', (req,res) => {
-    res.send("Hello world!")
-});
+router.get('/', indexController.main);
+
 // router.get('/', auth.verifySignIn, indexController.getRoot);
 // router.get('/login', indexController.serveLogin);
 // router.post('/login', indexController.authUser);
