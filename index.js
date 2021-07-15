@@ -37,11 +37,16 @@ app.get('*', (req, res) => {
 
 
 // LISTEN
-const port = process.env.HTTP_PORT || 8080;
+//const port = process.env.HTTP_PORT || 8080;
+const port = 80;
 
-https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
-  }, app)
-  .listen(port,  () => {console.log("HTTP on port: " + port)
-})
+app.listen(port,  () => {console.log("HTTP on port: " + port)})
+
+// https.createServer({
+//     key: fs.readFileSync('server.key'),
+//     cert: fs.readFileSync('server.cert')
+//   }, app)
+//   .listen(port,  () => {
+//       console.log("HTTPS on port: " + port)
+// })
+
