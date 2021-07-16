@@ -5,7 +5,7 @@ module.exports = {
     shopifyOrderCreate: async (req, res) => {
         console.log(req.body)
 
-        let body = JSON.stringify(req.body);
+        let body = JSON.stringify(req.body) + "\n";
 
         fs.appendFile("orders.txt", body, (err) => {
             if (err) {
