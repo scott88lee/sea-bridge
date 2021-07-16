@@ -38,7 +38,7 @@ app.get('*', (req, res) => {
 
 // LISTEN
 //const port = process.env.HTTP_PORT || 8080;
-const port = 80;
+const port = 443;
 
 app.listen(port,  () => {console.log("HTTP on port: " + port)})
 
