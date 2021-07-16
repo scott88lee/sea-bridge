@@ -28,15 +28,24 @@ app.get('/getToken', async (req, res) => {
         }
     
     try {
+        //Getting session token from POS API
         let response = await axios(config)
         console.log("Success: " + response.data.sessionToken)
-        if (response.data.sessionToken) {
+
+        //Getting prescription from POS API using session token
+        if (response.status == 200) {
+            //Include token into header
             head["X-Lenskart-Session-Token"] = response.data.sessionToken;
+
+            // Set query string / URL
             let url = API_URL + "customerPhone=" + "92991231" + "&phoneCode=%2B65"
-            let prescriptions = await axios.get(url, {headers:head})
-            console.log(prescriptions.data)
-            if (prescriptions.data){
-                res.send(prescriptions.data)
+            
+            // API call
+            response = await axios.get(url, {headers:head})
+            
+            if (response.status == 200){
+                let prescriptions = response.data.itemPrescriptions;
+                res.send(prescriptions)
             } else {
                 res.send("No prescription found");
             }
@@ -48,4 +57,4 @@ app.get('/getToken', async (req, res) => {
     }
 })
 
-app.listen(443, () => { console.log('Listening 443')})
+app.listen(8080, () => { console.log('Listening 443')})

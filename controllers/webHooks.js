@@ -1,9 +1,19 @@
 const db = require('../config/db')
+const fs = require('fs')
 
 module.exports = {
-    shopifyOrderCreate: (req, res) => {
+    shopifyOrderCreate: async (req, res) => {
         console.log(req.body)
-        res.status(200)
-        res.send;
+
+        let body = JSON.stringify(req.body);
+
+        fs.appendFile("orders.txt", body, (err) => {
+            if (err) {
+              console.log(err);   
+            }
+            else {
+                res.sendStatus(200)
+            }
+        });
     }
 }
