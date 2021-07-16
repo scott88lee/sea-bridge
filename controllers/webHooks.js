@@ -7,7 +7,7 @@ module.exports = {
 
         let body = JSON.stringify(req.body) + "\n";
 
-        fs.appendFile("orders.txt", body, (err) => {
+        fs.appendFile("../orders.txt", body, (err) => {
             if (err) {
               console.log(err);   
             }
