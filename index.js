@@ -7,7 +7,7 @@ const app = express();
  
 // Public Folder and Middleware
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 
 app.use(express.static('public'));
 
