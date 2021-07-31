@@ -1,5 +1,5 @@
-function doThis(){
-   var greeting = "hello"
+function doThis(a){
+   const greeting = a;
 }
 
 var greeting = "bye";

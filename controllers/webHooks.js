@@ -1,19 +1,12 @@
-const db = require('../config/db')
-const fs = require('fs')
+const webhooks = require('../models/webhooks.js')
 
 module.exports = {
     shopifyOrderCreate: async (req, res) => {
-        console.log(req.body)
 
-        let body = JSON.stringify(req.body) + "\n";
+        let body = JSON.stringify(req.body)
+        
+        let result =  webhooks.archiveWebhook(body);
+        res.send(result);
 
-        fs.appendFile("../orders.txt", body, (err) => {
-            if (err) {
-              console.log(err);   
-            }
-            else {
-                res.sendStatus(200)
-            }
-        });
     }
 }
