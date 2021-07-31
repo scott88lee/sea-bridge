@@ -1,16 +1,16 @@
 const db = require('../config/db')
 
 module.exports = {
-   archiveWebhook : (jsonBody) => {
-      let content = typeof jsonBody == 'undefined' ? null : jsonBody;
+   archiveWebhook : async (jsonBody) => {
+      let id = jsonBody.id;      
+      console.log(id)
+      let d = new Date();
+      let dat = d.toUTCString();
+
 
       try {
-         let query = "INSERT INTO shopify_webhook_orders (shopify_order_id, data) VALUES (" + content.id + ", " + content + ");"
-         db.query(query, (err, result) => {
-            if (err) {console.log(err)}
-            console.log(result);
-            return result;
-         });
+         let result = await db.query('INSERT INTO shopify_webhook_orders(shopify_order_id, raw_data, created_at) VALUES($1, $2, $3)', [id, jsonBody, dat])
+         return result;
       } catch (err) {
          console.log(err)
       }
