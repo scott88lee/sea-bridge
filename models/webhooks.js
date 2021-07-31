@@ -5,8 +5,9 @@ module.exports = {
       let content = typeof jsonBody == 'undefined' ? null : jsonBody;
 
       try {
-         let query = "INSERT INTO shopify_webhook_orders (shopify_order_id, column2) VALUES (" + content.id + ", " + content + ");"
+         let query = "INSERT INTO shopify_webhook_orders (shopify_order_id, data) VALUES (" + content.id + ", " + content + ");"
          db.query(query, (err, result) => {
+            if (err) {console.log(err)}
             console.log(result);
             return result;
          });
