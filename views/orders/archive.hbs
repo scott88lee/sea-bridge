@@ -15,10 +15,8 @@
                   </a>
                </th>
                <th class="left collapsing">{{this.created_at}}</th>
-               <th class="right aligned">Credit: {{#if this.credit}}<i class="check icon"></i>{{else}}<i
-                     class="x icon"></i>{{/if}} Paid: {{#if this.paid}}<i class="check icon"></i>{{else}}<i
-                     class="x icon"></i>{{/if}}</th>
-               <th class="right aligned collapsing">Total: $ {{this.total}}
+               <th class="right aligned">URL: <input class="ui input" id="{{this.shopify_order_id}}"></th>
+               <th class="right aligned collapsing"><button onclick="sendWebhook({{this.shopify_order_id}})" class="ui button">Send Webhook</button>
                </th>
             </tr>
          </thead>
@@ -43,4 +41,11 @@
    </div>
 </div>
 
+<script>
+   function sendWebhook(orderId) {
+      fetch('http://.com/.json')
+         .then(response => response.json())
+         .then(data => console.log(data));
+   }
+</script>
 {{/each}}
