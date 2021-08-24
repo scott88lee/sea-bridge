@@ -1,0 +1,46 @@
+<h2>Archive</h2>
+
+{{#each orders}}
+<div class="ui accordion">
+   <div class="title">
+      <table class="ui fluid celled table">
+         <thead>
+            <tr>
+               <th class="collapsing">
+                  <i class="dropdown icon"></i>
+               </th>
+               <th class="left collapsing"><a
+                     href="https://lenskart-sing.myshopify.com/admin/orders/{{this.shopify_order_id}}" target=”_blank”>
+                     #{{this.shopify_order_number}}
+                  </a>
+               </th>
+               <th class="left collapsing">{{this.created_at}}</th>
+               <th class="right aligned">Credit: {{#if this.credit}}<i class="check icon"></i>{{else}}<i
+                     class="x icon"></i>{{/if}} Paid: {{#if this.paid}}<i class="check icon"></i>{{else}}<i
+                     class="x icon"></i>{{/if}}</th>
+               <th class="right aligned collapsing">Total: $ {{this.total}}
+               </th>
+            </tr>
+         </thead>
+      </table>
+   </div>
+   <div class="content">
+      <table class="ui celled table" id="bill">
+         <thead>
+            <tr>
+               <th class="collapsing">Data</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <textarea name="" id="" cols="30" rows="10">
+                  {{this.raw_data}}
+               </textarea>
+            </tr>
+         </tbody>
+      </table>
+
+   </div>
+</div>
+
+{{/each}}

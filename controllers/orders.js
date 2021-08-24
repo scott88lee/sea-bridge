@@ -7,5 +7,13 @@ module.exports = {
          console.log(result)
          res.render("users/login")
       })
+   },
+
+   getArchive: (req, res) => {
+      let str = "SELECT * FROM shopify_webhook_orders ORDER BY shopify_order_number DESC;"
+      db.query(str, (err, result) => {
+         console.log(result)
+         res.render("orders/archive", {orders: result.rows})
+      })
    }
 }
