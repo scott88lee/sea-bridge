@@ -17,7 +17,7 @@ module.exports = {
           
           req.session.save(function (err) { //Forces session data to save
             if (err) return next(err)
-            res.redirect('/sales')
+            res.redirect('/orders')
           })
         } else {
           res.render('root/login', {message: "Invalid name / password"})
