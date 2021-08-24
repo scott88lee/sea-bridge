@@ -8,6 +8,5 @@ module.exports = {
         
         let result =  await webhooks.archiveWebhook(body);
         res.send(result);
-
     }
 }
