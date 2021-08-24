@@ -5,6 +5,6 @@ const usersController = require('../controllers/users');
 const db = require('../config/db')
 
 // ROUTES
-router.get('/', usersController.main);
+router.get('/login', usersController.renderLogin);
 
 module.exports = router;
