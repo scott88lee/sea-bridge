@@ -4,5 +4,6 @@ const webHooksController = require('../controllers/webHooks');
 
 // ROUTES
 router.post('/shopify_order_creation', webHooksController.shopifyOrderCreate);
+router.post('/:zone/shopify_order_creation', webHooksController.shopifyOrderCreate);
 
 module.exports = router;

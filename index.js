@@ -22,6 +22,7 @@ app.engine('hbs', handlebars(hbsConfig));
 
 // ROUTES
 app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
 app.use('/webhooks', require('./routes/webhooks'));
 
 //404 Precessing
