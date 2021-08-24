@@ -15,5 +15,10 @@ module.exports = {
          console.log(result)
          res.render("orders/archive", {orders: result.rows})
       })
+   },
+
+   postWebhook: (req, res) => {
+      console.log(req.body);
+      res.send(true)
    }
 }

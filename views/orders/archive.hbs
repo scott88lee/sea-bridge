@@ -15,7 +15,8 @@
                   </a>
                </th>
                <th class="left collapsing">{{this.created_at}}</th>
-               <th class="right aligned">URL: <input class="ui input" id="{{this.shopify_order_id}}"></th>
+               <th class="right aligned">URL: {{this.raw_data}}</th>
+               <th class="right aligned"><input class="ui input" id="{{this.shopify_order_id}}" style='width:100%'></th>
                <th class="right aligned collapsing"><button onclick="sendWebhook({{this.shopify_order_id}})" class="ui button">Send Webhook</button>
                </th>
             </tr>
@@ -40,12 +41,4 @@
 
    </div>
 </div>
-
-<script>
-   function sendWebhook(orderId) {
-      fetch('http://.com/.json')
-         .then(response => response.json())
-         .then(data => console.log(data));
-   }
-</script>
 {{/each}}
