@@ -15,5 +15,31 @@ module.exports = {
       } catch (err) {
          console.log(err)
       }
+   },
+   
+   getWebhookCount: async () => {
+      try {
+      let result = await db.query("SELECT COUNT(shopify_order_number) FROM shopify_webhook_orders;");
+         if (result.rowCount > 0){
+            return result.rows[0];
+         }
+      } catch (err) {
+         console.log(err)
+         return false;
+      }
+   },
+   
+   getWebhookRange: async (limit, offset) => {
+      try {
+         let str = "SELECT * FROM shopify_webhook_orders ORDER BY shopify_order_number DESC LIMIT "+ limit + "OFFSET " + offset + ";"      
+         let result = await db.query(str);
+         
+         if (result.rowCount > 0){
+            return result.rows;
+         }
+      } catch (err) {
+         console.log(err)
+         return false;
+      }
    }
 }

@@ -1,5 +1,6 @@
 const db = require('../config/db')
 const axios = require('axios')
+const webhooks = require('../models/webhooks')
 
 module.exports = {
    getall: (req, res) => {
@@ -10,12 +11,17 @@ module.exports = {
       })
    },
 
-   getArchive: (req, res) => {
-      let str = "SELECT * FROM shopify_webhook_orders ORDER BY shopify_order_number DESC;"
-      db.query(str, (err, result) => {
-         console.log(result)
-         res.render("orders/archive", {orders: result.rows})
-      })
+   listArchive: async (req, res) => {
+      let totalCount = await webhooks.getWebhookCount();
+      let result = await webhooks.getWebhookRange(20,20);
+      
+      console.log(result[0])
+      console.log(totalCount)
+      for (let i=0; i<result.length; i++){
+         //console.log(result[i].id)
+         result[i].data = JSON.stringify(result[i].raw_data)
+      }
+      res.render('orders/archive', {orders:result});
    },
 
    postWebhook: async (req, res) => {
