@@ -1,7 +1,7 @@
 $(document).ready(function(){
    $('.ui.accordion').accordion();
 
-   async function sendWebhook(orderId) {
+   function sendWebhook(orderId) {
       const url = '/orders/post/webhook'
       const target = document.getElementById(orderId).value
    
@@ -13,7 +13,7 @@ $(document).ready(function(){
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify({a: 1, b: 'Textual content'})
+              body: JSON.stringify({id: orderId, target: target})
             });
             const content = await response.json();
           

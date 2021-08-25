@@ -1,5 +1,6 @@
 <h2>Archive</h2>
-
+https://bridge.lenskart.com/order/webhooks/orders/create/pos<br>
+https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
 {{#each orders}}
 <div class="ui accordion">
    <div class="title">
@@ -14,8 +15,8 @@
                      #{{this.shopify_order_number}}
                   </a>
                </th>
-               <th class="left collapsing">{{this.created_at}}</th>
-               <th class="right aligned">URL: {{this.raw_data}}</th>
+               <th class="left collapsing">{{this.raw_data.customer.first_name}} {{this.raw_data.customer.last_name}}</th>
+               <th class="right aligned">URL: </th>
                <th class="right aligned"><input class="ui input" id="{{this.shopify_order_id}}" style='width:100%'></th>
                <th class="right aligned collapsing"><button onclick="sendWebhook({{this.shopify_order_id}})" class="ui button">Send Webhook</button>
                </th>
@@ -32,9 +33,11 @@
          </thead>
          <tbody>
             <tr>
+               <th class="collapsing">
                <textarea name="" id="" cols="30" rows="10">
                   {{this.raw_data}}
                </textarea>
+               </th>
             </tr>
          </tbody>
       </table>
@@ -42,3 +45,34 @@
    </div>
 </div>
 {{/each}}
+
+<script>
+      function sendWebhook(orderId) {
+      const url = '/orders/post/webhook'
+      const target = document.getElementById(orderId).value
+   
+      if (target.length > 0) {
+         (async () => {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({id: orderId, target: target})
+            });
+            const content = await response.json();
+          
+            console.log(content);
+            if (response.status == 200) {
+               alert("Success")
+            } else {
+               alert("Failed")
+            }
+         })();
+   
+      } else {
+         alert("URL field cannot be empty.")
+      }
+   }
+</script>
