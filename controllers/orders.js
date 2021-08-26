@@ -12,16 +12,47 @@ module.exports = {
    },
 
    listArchive: async (req, res) => {
+      //For Pagination
       let totalCount = await webhooks.getWebhookCount();
-      let result = await webhooks.getWebhookRange(20,20);
-      
-      console.log(result[0])
-      console.log(totalCount)
-      for (let i=0; i<result.length; i++){
-         //console.log(result[i].id)
-         result[i].data = JSON.stringify(result[i].raw_data)
+      let nav = {
+         pageNumber: 1,
+         backButton: false,
+         pageArray: [],
+         range: 10
       }
-      res.render('orders/archive', {orders:result});
+
+      if (req.query.page){
+         nav.pageNumber = req.query.page;
+         nav.backButton = true;
+      }
+
+      let limit = 10;
+      let offset = limit * (nav.pageNumber-1);
+      let pageCount = Math.floor(totalCount.count / limit);
+
+      if (nav.pageNumber > 5){
+         for (let i=nav.pageNumber-4; i<nav.pageNumber+5; i++){
+            nav.pageArray.push(i);
+         }
+      } else {
+         nav.pageArray = [1,2,3,4,5,6,7,8,9];
+      }
+      console.log(nav)
+      //For pagination
+
+      let result = await webhooks.getWebhookRange(limit, offset);
+      
+      if (result){
+         for (let i=0; i<result.length; i++){
+            result[i].data = JSON.stringify(result[i].raw_data)
+         }
+         res.render('orders/archive', {
+            orders:result,
+            navigation:nav
+         });
+      } else {
+         res.send("No orders found")
+      }
    },
 
    postWebhook: async (req, res) => {
