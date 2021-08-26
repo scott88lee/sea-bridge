@@ -2,17 +2,20 @@
 https://bridge.lenskart.com/order/webhooks/orders/create/pos<br>
 https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
 <br>
-   <div class="ui menu">
-{{#if navigation.backButton}}
-   <a class="item" href="/orders/archive?page={{navigation.backButton}}"><</a>
-{{/if}}
-{{#each navigation.pageArray}}
-      <a class="{{#if (equal this ../navigation.pageNumber)}}active {{/if}}item" href="/orders/archive?page={{this}}">{{this}}</a>
-{{/each}}
-{{#if navigation.forwardButton}}
-   <a class="item" href="/orders/archive?page={{navigation.forwardButton}}">></a>
-{{/if}}
-   </div>
+<div class="ui menu">
+   {{#if navigation.backButton}}
+      <a class="item" href="/orders/archive?page={{navigation.backButton}}"><</a>
+   {{/if}}
+   
+   {{#each navigation.pageArray}}
+      <a class="{{#if (equal this ../navigation.pageNumber)}}active {{/if}}item"
+         href="/orders/archive?page={{this}}">{{this}}</a>
+   {{/each}}
+         
+   {{#if navigation.forwardButton}}
+      <a class="item" href="/orders/archive?page={{navigation.forwardButton}}">></a>
+   {{/if}}
+</div>
 
 {{#each orders}}
 <div class="ui accordion">
@@ -28,10 +31,12 @@ https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
                      #{{this.shopify_order_number}}
                   </a>
                </th>
-               <th class="left collapsing">{{this.raw_data.customer.first_name}} {{this.raw_data.customer.last_name}}</th>
+               <th class="left collapsing">{{this.raw_data.customer.first_name}} {{this.raw_data.customer.last_name}}
+               </th>
                <th class="right aligned">URL: </th>
                <th class="right aligned"><input class="ui input" id="{{this.shopify_order_id}}" style='width:100%'></th>
-               <th class="right aligned collapsing"><button onclick="sendWebhook({{this.shopify_order_id}})" class="ui button">Send Webhook</button>
+               <th class="right aligned collapsing"><button onclick="sendWebhook({{this.shopify_order_id}})"
+                     class="ui button">Send Webhook</button>
                </th>
             </tr>
          </thead>
@@ -47,7 +52,7 @@ https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
          <tbody>
             <tr>
                <th class="collapsing">
-               <textarea name="" id="" cols="30" rows="10" style='width:100%'>
+                  <textarea name="" id="" cols="30" rows="10" style='width:100%'>
                   {{this.data}}
                </textarea>
                </th>
@@ -59,23 +64,39 @@ https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
 </div>
 {{/each}}
 
+<div class="ui menu">
+   {{#if navigation.backButton}}
+      <a class="item" href="/orders/archive?page={{navigation.backButton}}"><</a>
+   {{/if}}
+   
+   {{#each navigation.pageArray}}
+      <a class="{{#if (equal this ../navigation.pageNumber)}}active {{/if}}item"
+         href="/orders/archive?page={{this}}">{{this}}</a>
+   {{/each}}
+         
+   {{#if navigation.forwardButton}}
+      <a class="item" href="/orders/archive?page={{navigation.forwardButton}}">></a>
+   {{/if}}
+</div>
+<br>
+
 <script>
-      function sendWebhook(orderId) {
+   function sendWebhook(orderId) {
       const url = '/orders/post/webhook'
       const target = document.getElementById(orderId).value
-   
+
       if (target.length > 0) {
          (async () => {
             const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({id: orderId, target: target})
+               method: 'POST',
+               headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+               },
+               body: JSON.stringify({ id: orderId, target: target })
             });
             const content = await response.json();
-          
+
             console.log(content);
             if (response.status == 200) {
                alert("Success")
@@ -83,7 +104,7 @@ https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
                alert("Failed")
             }
          })();
-   
+
       } else {
          alert("URL field cannot be empty.")
       }
