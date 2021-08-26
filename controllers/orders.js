@@ -3,14 +3,6 @@ const axios = require('axios')
 const webhooks = require('../models/webhooks')
 
 module.exports = {
-   getall: (req, res) => {
-      let str = "SELECT * FROM shopify_webhook_orders LIMIT 2;"
-      db.query(str, (err, result) => {
-         console.log(result)
-         res.render("users/login")
-      })
-   },
-
    listArchive: async (req, res) => {
       //For Pagination
       let totalCount = await webhooks.getWebhookCount();
@@ -48,8 +40,8 @@ module.exports = {
          nav.pageArray = [1,2,3,4,5,6,7,8,9];
       }
       
-      console.log(nav)
-      //For pagination
+      //For pagination debuging
+      //console.log(nav)
 
       let result = await webhooks.getWebhookRange(limit, offset);
       
