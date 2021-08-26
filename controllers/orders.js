@@ -18,7 +18,8 @@ module.exports = {
          pageNumber: 1,
          backButton: false,
          pageArray: [],
-         range: 10
+         range: 10,
+         pageCount: 0
       }
 
       if (req.query.page){
@@ -28,7 +29,7 @@ module.exports = {
 
       let limit = 10;
       let offset = limit * (nav.pageNumber-1);
-      let pageCount = Math.floor(totalCount.count / limit);
+      nav.pageCount = Math.floor(totalCount.count / limit);
 
       if (nav.pageNumber > 5){
          for (let i=nav.pageNumber-4; i<nav.pageNumber+5; i++){
@@ -46,6 +47,8 @@ module.exports = {
          for (let i=0; i<result.length; i++){
             result[i].data = JSON.stringify(result[i].raw_data)
          }
+
+         console.log(result)
          res.render('orders/archive', {
             orders:result,
             navigation:nav
