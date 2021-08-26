@@ -1,6 +1,19 @@
 <h2>Archive</h2>
 https://bridge.lenskart.com/order/webhooks/orders/create/pos<br>
 https://preprodbridge.lenskart.com/order/webhooks/orders/create/pos
+<br>
+   <div class="ui menu">
+{{#if navigation.backButton}}
+   <a class="item" href="/orders/archive?page={{navigation.backButton}}"><</a>
+{{/if}}
+{{#each navigation.pageArray}}
+      <a class="{{#if (equal this ../navigation.pageNumber)}}active {{/if}}item" href="/orders/archive?page={{this}}">{{this}}</a>
+{{/each}}
+{{#if navigation.forwardButton}}
+   <a class="item" href="/orders/archive?page={{navigation.forwardButton}}">></a>
+{{/if}}
+   </div>
+
 {{#each orders}}
 <div class="ui accordion">
    <div class="title">

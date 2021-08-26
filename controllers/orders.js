@@ -16,28 +16,38 @@ module.exports = {
       let totalCount = await webhooks.getWebhookCount();
       let nav = {
          pageNumber: 1,
-         backButton: false,
+         backButton: 1,
+         forwardButton: 2,
          pageArray: [],
          range: 10,
          pageCount: 0
       }
 
       if (req.query.page){
-         nav.pageNumber = req.query.page;
-         nav.backButton = true;
+         let page = Number(req.query.page);
+         nav.pageNumber = page > 1 ? page : 1 ;
+         nav.forwardButton = page > 1 ? page+1 : 2 ;
+         nav.backButton = page > 1 ? page-1 : 1 ;
       }
 
       let limit = 10;
       let offset = limit * (nav.pageNumber-1);
       nav.pageCount = Math.floor(totalCount.count / limit);
 
+      if (nav.pageCount == nav.pageNumber) {
+         nav.forwardButton = false;
+      }
+
       if (nav.pageNumber > 5){
          for (let i=nav.pageNumber-4; i<nav.pageNumber+5; i++){
-            nav.pageArray.push(i);
+            if (i <= nav.pageCount) {
+               nav.pageArray.push(i);
+            }
          }
       } else {
          nav.pageArray = [1,2,3,4,5,6,7,8,9];
       }
+      
       console.log(nav)
       //For pagination
 
@@ -48,7 +58,7 @@ module.exports = {
             result[i].data = JSON.stringify(result[i].raw_data)
          }
 
-         console.log(result)
+         //console.log(result)
          res.render('orders/archive', {
             orders:result,
             navigation:nav

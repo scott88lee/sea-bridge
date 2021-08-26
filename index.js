@@ -1,7 +1,7 @@
 // IMPORTS
 require('dotenv').config()
 const express = require('express');
-const handlebars = require('express-handlebars');
+const Handlebars = require('express-handlebars');
 
 const app = express();
  
@@ -16,9 +16,18 @@ const hbsConfig = {
     layoutsDir: __dirname + '/views/layouts',
     extname: 'hbs',
     defaultLayout: 'defaultLayout',
+    helpers:{
+        equal : function(a,b){
+            return (a==b) ? true : false
+        },
+        notEqual : function(a,b){
+            return (a!=b) ? true : false
+        }
+    }
 }
+
 app.set('view engine', 'hbs');
-app.engine('hbs', handlebars(hbsConfig));
+app.engine('hbs', Handlebars(hbsConfig));
 
 // ROUTES
 app.use('/', require('./routes/index'));
