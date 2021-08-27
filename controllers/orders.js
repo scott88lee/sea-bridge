@@ -1,6 +1,6 @@
+const webhooks = require('../models/webhooks')
 const db = require('../config/db')
 const axios = require('axios')
-const webhooks = require('../models/webhooks')
 
 module.exports = {
    listArchive: async (req, res) => {
@@ -91,5 +91,11 @@ module.exports = {
       }
          res.send("OK")
       })
+   },
+
+   processOrder : (JSONBody) => {
+      console.log("Start of process")
+      let jsn = axios.get("https://bridge.lenskart.com/api/sg-prescription/85888838");
+      console.log(jsn);
    }
 }

@@ -1,5 +1,5 @@
 const webhooks = require('../models/webhooks.js');
-const axios = require('axios');
+const orders = require('../controllers/orders.js');
 
 module.exports = {
     shopifyOrderCreate: async (req, res) => {
@@ -11,15 +11,9 @@ module.exports = {
         
         if (savedWebhook) {
             console.log("Before process")
-            this.processOrder(body);
+            orders.processOrder(body);
             console.log("After process")
             res.send("200 OK");
         }
-    },
-
-    processOrder : (JSONBody) => {
-        console.log("Start of process")
-        let jsn = axios.get("https://bridge.lenskart.com/api/sg/prescriptions/85888838");
-        console.log(jsn);
     }
 }
