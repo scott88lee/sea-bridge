@@ -11,9 +11,11 @@ module.exports = {
       
       try {
          let result = await db.query('INSERT INTO shopify_webhook_orders(shopify_order_id, shopify_order_number, raw_data, created_at, processed) VALUES($1, $2, $3, $4, $5)', [id, ordNum, jsonBody, timestamp, false])
+         console.log('Webhook archived at: ' + timestamp)
          return result;
       } catch (err) {
-         console.log(err)
+         console.log("Error archiving webhook: " + err)
+         return false;
       }
    },
    
