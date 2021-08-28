@@ -43,5 +43,22 @@ module.exports = {
          console.log(err)
          return false;
       }
+   },
+
+   getWebhookById: async (orderId) => {
+      try {
+         let str = "SELECT * FROM shopify_webhook_orders WHERE shopify_order_id=" + orderId + ";"
+         let result = await db.query(str);
+         
+         if (result.rowCount > 0 ) {
+            return result.rows[0].raw_data;
+         } else {
+            return false;
+         }
+      } catch (err){
+         console.log("Function name: getWebhookById")
+         console.log(err)
+         return false;
+      }
    }
 }
