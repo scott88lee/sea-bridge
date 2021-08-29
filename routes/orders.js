@@ -4,6 +4,7 @@ const ordersController = require('../controllers/orders');
 
 // ROUTES
 router.get('/archive', ordersController.listArchive);
+router.get('/process/:orderId', ordersController.processOrder);
 
 router.post('/post/webhook', ordersController.postWebhook);
 

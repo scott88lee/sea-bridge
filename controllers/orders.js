@@ -93,8 +93,17 @@ module.exports = {
       })
    },
 
-   processOrder : (JSONBody) => {
-      console.log("Start of process")
+   processOrder : (orderId) => {
+      console.log("Start of order processing: " + orderId);
+
+      //Create order entry
+      //Loop through line-items
+      //match lens to frame
+      //match lens to pos name
+      //send package to cart.
+      //register cart response.
+
+      // send otder to POS
       let jsn = axios.get("https://bridge.lenskart.com/api/sg-prescription/85888838");
       console.log(jsn);
    }
