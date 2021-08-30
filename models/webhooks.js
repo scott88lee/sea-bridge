@@ -51,7 +51,7 @@ module.exports = {
          let result = await db.query(str);
          
          if (result.rowCount > 0 ) {
-            return result.rows[0].raw_data;
+            return result.rows[0];
          } else {
             return false;
          }
