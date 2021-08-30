@@ -33,6 +33,7 @@ app.engine('hbs', Handlebars(hbsConfig));
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/orders', require('./routes/orders'));
+app.use('/packages', require('./routes/packages'));
 app.use('/webhooks', require('./routes/webhooks'));
 
 //404 Precessing
