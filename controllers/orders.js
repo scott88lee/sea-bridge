@@ -97,6 +97,7 @@ module.exports = {
       console.log("Start of order processing: " + orderId);
 
       //Create order entry
+      
       //Loop through line-items
       //match lens to frame
       //match lens to pos name

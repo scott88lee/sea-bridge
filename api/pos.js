@@ -1,11 +1,10 @@
-const db = require('../config/db');
 const axios = require('axios');
 
 module.exports = {
 
   // Get session token from POS-API
   getSessionToken: async () => {
-    console.log("Getting session token.");
+    console.log("Getting POS session token.");
 
     let head = {
       "Content-Type": "application/json",
@@ -28,10 +27,10 @@ module.exports = {
 
     try {
       let response = await axios(config)
-      console.log("LK session token: " + response.data.sessionToken)
+      console.log("POS session token: " + response.data.sessionToken);
 
       //next feature, cache the token.
-      return response.data.sessionToken
+      return response.data
     }
     catch (err) {
       console.log("Error: " + err)

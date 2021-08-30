@@ -8,5 +8,18 @@ module.exports = {
             res.redirect("/orders")
             //res.send("Welcome to SEA-Bridge")
         })
+    },
+
+    test: async (req, res) => {
+        const juno = require('../api/juno');
+        const pos = require('../api/pos');
+        const axios = require('axios');
+
+        let payload = {};
+
+        payload.pos = await pos.getSessionToken();
+        payload.juno = await juno.getSessionToken();
+
+        res.send(payload)
     }
 }
