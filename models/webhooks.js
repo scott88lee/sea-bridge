@@ -60,5 +60,21 @@ module.exports = {
          console.log(err)
          return false;
       }
+   },
+
+   setWebhookProcessed: async (orderId) => {
+      try {
+         let str = "UPDATE shopify_webhook_orders SET processed=true WHERE shopify_order_id =" + orderId + ";"
+         let success = await db.query(str);
+         if (success) {
+            return success
+         } else {
+            return false;
+         }
+      } catch (err){
+         console.log("Function name: setWebhookProcessed")
+         console.log(err)
+         return false;
+      }
    }
 }

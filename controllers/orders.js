@@ -1,4 +1,7 @@
 const webhooks = require('../models/webhooks')
+const orders = require('../models/orders')
+const JUNO = require('../api/juno');
+const POS = require('../api/pos');
 const db = require('../config/db')
 const axios = require('axios')
 
@@ -61,26 +64,17 @@ module.exports = {
    },
 
    postWebhook: async (req, res) => {
-      console.log(req.body);
-      let str = "SELECT * FROM shopify_webhook_orders WHERE shopify_order_id =" + req.body.id + ";"
-
-      db.query(str, async (err, result) => {
-         let webhook = result.rows[0].raw_data;
+      try {
+         let orderId = req.body.id;
+         
+         let webhook = await webhooks.getWebhookById(orderId);
          let URL = req.body.target;
 
-      try {
          // API call
-         let response = await axios.post(URL, webhook)
+         let response = await axios.post(URL, webhook.raw_data)
          
          if (response.status == 200){ 
-            
-            let str = "UPDATE shopify_webhook_order SET processed=true WHERE shopify_order_id =" + req.body.id + ";"
-            db.query(str, async (err, result) => {
-               if (result) {
-                  console.log('Post Webhook: Success!')
-                  res.send(true);
-               }
-            })
+            res.send(true);
          }
       } catch (err) {
          if (err) {
@@ -89,15 +83,23 @@ module.exports = {
             return false;
          }
       }
-         res.send("OK")
-      })
    },
 
-   processOrder : (orderId) => {
+   processOrder : async (req, res) => {
+      let orderId = req.params.orderId;
+
       console.log("Start of order processing: " + orderId);
 
-      //Create order entry
-      
+      //Cater for Idempotence
+      let webhook = await webhooks.getWebhookById(orderId);
+
+      if (webhook && !webhook.processed){ //Exist and not process yet
+         console.log("Order: " + webhook.shopify_order_id + " - Processed: " + webhook.processed)
+         
+
+         let saveOrder = await orders.saveOrder(webhook.raw_data);
+      }
+
       //Loop through line-items
       //match lens to frame
       //match lens to pos name
