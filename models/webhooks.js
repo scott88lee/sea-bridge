@@ -64,7 +64,10 @@ module.exports = {
 
    setWebhookProcessed: async (orderId) => {
       try {
-         let str = "UPDATE shopify_webhook_orders SET processed=true WHERE shopify_order_id =" + orderId + ";"
+         let d = new Date();
+         let timestamp = d.toUTCString()
+
+         let str = "UPDATE shopify_webhook_orders SET processed=true, processed_at=" + timestamp + " WHERE shopify_order_id =" + orderId + ";"
          let success = await db.query(str);
          if (success) {
             return success
