@@ -2,7 +2,6 @@ const webhooks = require('../models/webhooks')
 const orders = require('../models/orders')
 const JUNO = require('../api/juno');
 const POS = require('../api/pos');
-const db = require('../config/db')
 const axios = require('axios')
 
 module.exports = {
@@ -76,6 +75,7 @@ module.exports = {
          if (response.status == 200){ 
             res.send(true);
          }
+
       } catch (err) {
          if (err) {
             console.log(err);
@@ -95,18 +95,20 @@ module.exports = {
 
       if (webhook && !webhook.processed){ //Exist and not process yet
          console.log("Order: " + webhook.shopify_order_id + " - Processed: " + webhook.processed)
+         let POStoken  = POS.getSessionToken();
+         let Junotoken  = JUNO.getSessionToken();
          
-
+         //Loop through line-items
+         let itemsArray = webhook.raw_data.line_items
          let saveOrder = await orders.saveOrder(webhook.raw_data);
       }
 
-      //Loop through line-items
       //match lens to frame
       //match lens to pos name
       //send package to cart.
       //register cart response.
 
-      // send otder to POS
+      // send order to POS
       let jsn = axios.get("https://bridge.lenskart.com/api/sg-prescription/85888838");
       console.log(jsn);
    }
