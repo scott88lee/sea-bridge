@@ -1,5 +1,6 @@
 const webhooks = require('../models/webhooks')
 const orders = require('../models/orders')
+const helper = require('../helpers/orders')
 const JUNO = require('../api/juno');
 const POS = require('../api/pos');
 const axios = require('axios')
@@ -98,8 +99,18 @@ module.exports = {
          let POStoken  = POS.getSessionToken();
          let Junotoken  = JUNO.getSessionToken();
          
+         //Consolidate Membership, Frame and Lens into packages
+         let itemsArray = helper.consolidateLineItems(webhook.raw_data.line_items);
+
          //Loop through line-items
-         let itemsArray = webhook.raw_data.line_items
+         for (let i in itemsArray){
+            if (itemsArray[i].sku == "128269"){
+               POS.addMemberShip(POStoken, Junotoken, itemsArray[i].sku)
+            } else {
+               POS.getProductDetail(POStoken, itemsArray[i].sku)
+            }
+         }
+
          let saveOrder = await orders.saveOrder(webhook.raw_data);
       }
 

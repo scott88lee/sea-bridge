@@ -50,6 +50,9 @@ module.exports = {
                      if (packageName == 'Tokai Progressive Blue' || packageName == 'Tokai Progressive Transitions' || packageName == 'Premium Bifocal' || packageName == 'Progressive BLU Classic' || packageName == 'Progressive' || packageName == 'Progressive Light Responsive' || packageName == 'Bifocal Light Responsive') {
                         rxType = 'Bifocal'
                      }
+                     if (packageName == "Zero power PC BLU Lenses"){
+                        rxType = "Zero Power"
+                     }
 
                      payload.push(
                         {
