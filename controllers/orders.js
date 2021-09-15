@@ -14,7 +14,7 @@ module.exports = {
          backButton: 1,
          forwardButton: 2,
          pageArray: [],
-         median: 8,
+         median: 7,
          pageCount: 0
       }
 
@@ -34,7 +34,7 @@ module.exports = {
       }
 
       if (nav.pageNumber > nav.median){
-         for (let i=nav.pageNumber-nav.median; i<nav.pageNumber+nav.median; i++){
+         for (let i=nav.pageNumber-nav.median; i<=nav.pageNumber+nav.median; i++){
             if (i <= nav.pageCount) {
                nav.pageArray.push(i);
             }
