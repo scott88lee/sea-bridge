@@ -14,7 +14,7 @@ module.exports = {
          backButton: 1,
          forwardButton: 2,
          pageArray: [],
-         range: 10,
+         median: 8,
          pageCount: 0
       }
 
@@ -25,7 +25,7 @@ module.exports = {
          nav.backButton = page > 1 ? page-1 : 1 ;
       }
 
-      let limit = 10;
+      let limit = 20;
       let offset = limit * (nav.pageNumber-1);
       nav.pageCount = Math.floor(totalCount.count / limit);
 
@@ -33,14 +33,14 @@ module.exports = {
          nav.forwardButton = false;
       }
 
-      if (nav.pageNumber > 5){
-         for (let i=nav.pageNumber-4; i<nav.pageNumber+5; i++){
+      if (nav.pageNumber > nav.median){
+         for (let i=nav.pageNumber-nav.median-1; i<nav.pageNumber+nav.median-1; i++){
             if (i <= nav.pageCount) {
                nav.pageArray.push(i);
             }
          }
       } else {
-         nav.pageArray = [1,2,3,4,5,6,7,8,9];
+         nav.pageArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
       }
       
       //For pagination debuging
