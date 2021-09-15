@@ -34,7 +34,7 @@ module.exports = {
       }
 
       if (nav.pageNumber > nav.median){
-         for (let i=nav.pageNumber-nav.median-1; i<nav.pageNumber+nav.median-1; i++){
+         for (let i=nav.pageNumber-nav.median; i<nav.pageNumber+nav.median; i++){
             if (i <= nav.pageCount) {
                nav.pageArray.push(i);
             }
