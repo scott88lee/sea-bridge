@@ -69,5 +69,9 @@ module.exports = {
 
       console.log("Consolidated Line items: " + payload);
       return payload;
-   }
+   },
+
+   sleep: (ms) => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+   } 
 }

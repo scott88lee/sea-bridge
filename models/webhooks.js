@@ -62,6 +62,23 @@ module.exports = {
       }
    },
 
+   getWebhookByOrderNumber: async (orderNum) => {
+      try {
+         let str = "SELECT * FROM shopify_webhook_orders WHERE shopify_order_number=" + orderNum + ";"
+         let result = await db.query(str);
+         
+         if (result.rowCount > 0 ) {
+            return result.rows[0];
+         } else {
+            return false;
+         }
+      } catch (err){
+         console.log("Function name: getWebhookByOrderNum")
+         console.log(err)
+         return false;
+      }
+   },
+
    setWebhookProcessed: async (orderId) => {
       try {
          let d = new Date();

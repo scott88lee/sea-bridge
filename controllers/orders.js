@@ -123,5 +123,50 @@ module.exports = {
       // send order to POS
       let jsn = axios.get("https://bridge.lenskart.com/api/sg-prescription/85888838");
       console.log(jsn);
-   }
+   },
+
+   sendWH : async (req, res) => {
+      let query = req.query;
+      console.log(query);
+
+      let url = "https://bridge.lenskart.com/order/webhooks/orders/create/pos"
+      let arr1 = [15344,15361,15389,15300,15390,15408,15422,15424,15425,15427,15441,15446,15447,15474,15516,15255,15270,15285,15289,15296,15318,15333,15200,15114,15074,15076,15022]
+      let arr2 = [15200,15408]
+      let sep18 = [14067,14787,14857,14926,14924,15196,15182,15340,15309,15300,15260,15556,15535,15484,15465,15444,15389,15678]
+
+      if (query.start && query.end && query.end >= query.start){
+         
+         console.log("We can do this")
+         console.log(url);
+
+         let i = 0;
+         do {
+            try {
+               console.log("Getting :", arr[i])
+               let webhook = await webhooks.getWebhookByOrderNumber(arr[i]);
+               if (webhook){console.log("Found")}
+               
+               // API call
+               console.log("Posting ")
+               let std = new Date();
+               let response = await axios.post(url, webhook.raw_data)
+               let end = new Date()
+               console.log("Time taken to post: " + (end-std) + "ms")
+
+               if (response.status == 200){ 
+                  console.log("Posted WH, waiting")
+                  await helper.sleep(3000);
+                  console.log("Done: ", arr[i])
+                  i++;
+               }
+            } catch (err) {
+               if (err){
+                  console.log("Timeout!!!!!!!!!!!!!!!!!!!!!!!!!" + arr[i])
+                  i++
+               }
+            }
+         } while (i<arr.length)
+      res.sendStatus(200);
+      }
+   },
 }
