@@ -6,20 +6,17 @@ module.exports = {
    getSessionToken: async () => {
       console.log("Getting Juno Session token.");
 
-      let head = {
+      let options = { headers : {
          'Content-Type': 'application/json',
          'X-API-Client': 'desktop',
          'X-Country-Code': process.env.COUNTRY_CODE
+        }
       }
 
-      let config = {
-         method: "post",
-         url: process.env.LK_SESSION_URL,
-         headers: head
-      }
+      let URL = process.env.JUNOAPI_URL + "/v2/sessions"
 
       try {
-         let response = await axios(config)
+         let response = await axios.post(URL, options)
          console.log("LK session token: " + JSON.stringify(response.data.result.id))
 
          // let example = {
