@@ -1,60 +1,61 @@
-<form class="ui form" action="/products/new" method="post">
-        <h4 class="ui dividing header">Add new pacakge</h4>
-        <div class="three fields">
-          <div class="field">
-            <label>Package ID</label>
-            <input autocomplete="off" type="text" name="sku" tabindex="1" placeholder="UPC8838B" required>
-          </div>
-          <div class="field">
-            <label>Frame type</label>
-            <div class="ui selection dropdown">
-              <input type="hidden" name="cat">
-              <i class="dropdown icon"></i>
-              <div class="default text">Frame type</div>
-              <div class="menu">
-                <div class="item" data-ref="fr" data-value="full-rimmed">Full Rimmed</div>
-                <div class="item" data-ref="hr" data-value="half-rimmed">Half Rimmed</div>
-                <div class="item" data-ref="rl" data-value="Rimless">Rimless</div>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <div class="ui toggle checkbox" style="margin-top:8px">
-              <input autocomplete="off" type="checkbox" value="true" name="physical_item" tabindex="2" class="active" checked>
-              <label>Physical item</label>
-            </div>
-          </div>
+<form class="ui form" action="/sandbox/upload" method="post">
+  <h4 class="ui dividing header">Add new pacakge</h4>
+  <div class="three fields">
+    <div class="field">
+      <label>Package ID</label>
+      <input autocomplete="off" type="text" name="sku" tabindex="1" placeholder="UPC8838B" required>
+    </div>
+    <div class="field">
+      <label>Frame type</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="cat">
+        <i class="dropdown icon"></i>
+        <div class="default text">Frame type</div>
+        <div class="menu">
+          <div class="item" data-ref="fr" data-value="full-rimmed">Full Rimmed</div>
+          <div class="item" data-ref="hr" data-value="half-rimmed">Half Rimmed</div>
+          <div class="item" data-ref="rl" data-value="Rimless">Rimless</div>
         </div>
-        <div class="three fields">
-          <div class="field">
-            <label>Region</label>
-            <input autocomplete="off" type="text" name="brand" tabindex="2" placeholder="Yamaha" required>
-          </div>
-          <div class="field">
-            <label>Model</label>
-            <input autocomplete="off" type="text" name="model" tabindex="2" placeholder="THR10-II Wireless" required>
-          </div>
-          <div class="field">
-            <label>S$ MSRP</label>
-            <input autocomplete="off" type="number" min="0.01" step="0.01" name="msrp" tabindex="2" placeholder="599" required>
-          </div>
-          <div class="field">
-            <label>S$ MAP</label>
-            <input autocomplete="off" type="number" min="0.01" step="0.01" name="map" tabindex="2" placeholder="539.50" required>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Web Package Name</label>
-          <div class="field">
-            <input autocomplete="off" type="text" name="product_desc" tabindex="2"
-              placeholder="20W Portable Desktop Amplifier with Wireless Reciever" required>
-          </div>
-        </div>
-        <button class="ui button" tabindex="1">Add Product</button>
-
-      </form>
+      </div>
+    </div>
+    <div class="field">
+      <label>&nbsp;</label>
+      <div class="ui toggle checkbox" style="margin-top:8px">
+        <input autocomplete="off" type="checkbox" value="true" name="physical_item" tabindex="2" class="active" checked>
+        <label>Physical item</label>
+      </div>
     </div>
   </div>
+  <div class="three fields">
+    <div class="field">
+      <label>Region</label>
+      <input autocomplete="off" type="text" name="brand" tabindex="2" placeholder="Yamaha" required>
+    </div>
+    <div class="field">
+      <label>Model</label>
+      <input autocomplete="off" type="text" name="model" tabindex="2" placeholder="THR10-II Wireless" required>
+    </div>
+    <div class="field">
+      <label>S$ MSRP</label>
+      <input autocomplete="off" type="number" min="0.01" step="0.01" name="msrp" tabindex="2" placeholder="599"
+        required>
+    </div>
+    <div class="field">
+      <label>Prescription Upload</label>
+        <input type="file" id="myFile" name="filename">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Web Package Name</label>
+    <div class="field">
+      <input autocomplete="off" type="text" name="product_desc" tabindex="2"
+        placeholder="20W Portable Desktop Amplifier with Wireless Reciever" required>
+    </div>
+  </div>
+  <button class="ui button" tabindex="1">Add Product</button>
+
+</form>
+</div>
+</div>
 </div>
