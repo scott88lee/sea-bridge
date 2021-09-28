@@ -1,3 +1,5 @@
+const fs = require('fs');
+const AWS = require('aws-sdk');
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/sandbox');
@@ -40,7 +42,7 @@ const uploadImage = multer({
 router.get('/', controller.index);
 
 router.post("/fileupload", (req, res) => {
-    uploadImage(req, res, (err) => {
+    uploadImage (req, res, (err) => {
         if (err) {
             if (err.code == "LIMIT_FILE_SIZE") {
                 return res.send(
@@ -49,96 +51,46 @@ router.post("/fileupload", (req, res) => {
             }
             return res.send(err)
         }
+        
+        console.log("Request body: " + JSON.stringify(req.body));
 
-        if (req.file ) {
-            console.log(req.body)
-    
-            console.log("File uploaded: " + req.file.filename);
-            console.log(req.file)
-            res.send("file disk upload success");
+        if (req.file && req.body.session && req.body.sku) {
+            const awsBucketBaseurl = "https://3d-asset-lookr.s3-ap-southeast-1.amazonaws.com/";
+            const s3 = new AWS.S3({ accessKeyId: process.env.AWS_S3_ID, secretAccessKey: process.env.AWS_S3_SECRET });
+            
+            let fileContent = fs.readFileSync("temp/" + req.file.filename);
+            let ext = path.extname(req.file.originalname);
+            
+            var s3params = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: req.body.session + "-" + req.body.sku + ext, // File name you want to save as in S3
+                Body: fileContent,
+                ACL: 'public-read'
+            };
+
+            s3.upload(s3params, function (err, data) {
+                if (err) {
+                    fs.unlinkSync("temp/" + req.file.filename, (err) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                    });
+                    res.send({ success: false, errMsg: "S3 write error."})
+                } else {
+                    fs.unlinkSync("temp/" + req.file.filename, (err) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                    })
+                    console.log("S3 write success: " + JSON.stringify(data))
+                    res.send({success:true, url: data.Location});
+                }
+            });
         } else {
             console.log("No file was uploaded")
             res.send({ success: false, errMsg: "No file was recieved." })
         }
     })
 });
-
-/*
-var position = 1;
-    var s3filepath = "";
-    var fileType = "";
-    var awsBucketBaseurl = "https://3d-asset-lookr.s3-ap-southeast-1.amazonaws.com/";
-    const s3 = new AWS.S3({accessKeyId: process.env.AWS_S3_ID, secretAccessKey: process.env.AWS_S3_SECRET});
-
-    if (req.files !== 'undefined') {
-        let fileList = req.files;
-        if (fileList.length > 0) {
-            var presFile = req.files[0].path;
-            var fileContent = fs.readFileSync(presFile);
-            var ext = path.extname(fileList[0].originalname);
-            var currDate = new Date().getTime();
-            var filename = 'COLLECTION_FILE__' + currDate + ext;
-            var filenameonS3 = 'COLLECTION/' + filename;
-            s3filepath = awsBucketBaseurl + filenameonS3;
-            fileType = ext.replace(/./i, '');
-            req.body.imageurl = s3filepath
-            var fileparams = {
-                Bucket: process.env.BUCKET_NAME,
-                Key: filenameonS3, // File name you want to save as in S3
-                Body: fileContent,
-                ACL: 'public-read'
-            };
-            s3.upload(fileparams, function (err, data) {
-                fs.unlink(presFile, (err) => {
-                    if (err) {
-
-                    } else {
-                        s3filepath = awsBucketBaseurl + filenameonS3;
-                        console.log("s3filepath", '' + s3filepath);
-                    }
-                });
-
-                //err == null ? data : err;
-            });
-        }
-    }var position = 1;
-    var s3filepath = "";
-    var fileType = "";
-    var awsBucketBaseurl = "https://3d-asset-lookr.s3-ap-southeast-1.amazonaws.com/";
-    const s3 = new AWS.S3({accessKeyId: process.env.AWS_S3_ID, secretAccessKey: process.env.AWS_S3_SECRET});
-
-    if (req.files !== 'undefined') {
-        let fileList = req.files;
-        if (fileList.length > 0) {
-            var presFile = req.files[0].path;
-            var fileContent = fs.readFileSync(presFile);
-            var ext = path.extname(fileList[0].originalname);
-            var currDate = new Date().getTime();
-            var filename = 'COLLECTION_FILE__' + currDate + ext;
-            var filenameonS3 = 'COLLECTION/' + filename;
-            s3filepath = awsBucketBaseurl + filenameonS3;
-            fileType = ext.replace(/./i, '');
-            req.body.imageurl = s3filepath
-            var fileparams = {
-                Bucket: process.env.BUCKET_NAME,
-                Key: filenameonS3, // File name you want to save as in S3
-                Body: fileContent,
-                ACL: 'public-read'
-            };
-            s3.upload(fileparams, function (err, data) {
-                fs.unlink(presFile, (err) => {
-                    if (err) {
-
-                    } else {
-                        s3filepath = awsBucketBaseurl + filenameonS3;
-                        console.log("s3filepath", '' + s3filepath);
-                    }
-                });
-
-                //err == null ? data : err;
-            });
-        }
-    }
-*/
 
 module.exports = router;
