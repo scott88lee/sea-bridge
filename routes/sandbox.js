@@ -42,6 +42,8 @@ const uploadImage = multer({
 router.get('/', controller.index);
 
 router.post("/fileupload", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    
     uploadImage (req, res, (err) => {
         if (err) {
             if (err.code == "LIMIT_FILE_SIZE") {
