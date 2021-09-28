@@ -28,10 +28,10 @@ const uploadImage = multer({
         var extname = filetypes.test(path.extname(
             file.originalname).toLowerCase());
 
-        if (mimetype && extname) {
+        if (mimetype && extname) { // Check MIME types on top of FileExt
             return cb(null, true);
         } else {
-            cb({success:false, errMsg:"Invalid File format."}, false)
+            cb({ success: false, errMsg: "Invalid File format." }, false)
         }
     }
 }).single('image')
@@ -41,24 +41,25 @@ router.get('/', controller.index);
 router.post('/upload', controller.upload);
 
 router.post("/fileupload", (req, res) => {
-  uploadImage(req, res, (err) => {
-    if (err) {
-        if (err.code == "LIMIT_FILE_SIZE"){
-            return res.send(
-                {success: false, errMsg: "File size over 2MB."}
-            )
+    uploadImage(req, res, (err) => {
+        if (err) {
+            if (err.code == "LIMIT_FILE_SIZE") {
+                return res.send(
+                    { success: false, errMsg: "File size over 2MB." }
+                )
+            }
+            return res.send(err)
         }
-        return res.send(err)
-    }
-    
-        console.log(req.body)
-        if (req.file) {
+
+        if (req.file ) {
+            console.log(req.body)
+            
             console.log("File uploaded: " + req.file.filename);
             console.log(req.file)
             res.send("file disk upload success");
         } else {
             console.log("No file was uploaded")
-            res.send(req.body)
+            res.send({ success: false, errMsg: "No file was recieved." })
         }
     })
 });
