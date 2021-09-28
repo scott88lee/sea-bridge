@@ -6,5 +6,4 @@ const controller = require('../controllers/sandbox');
 router.get('/', controller.index);
 router.post('/upload', controller.upload);
 
-
 module.exports = router;
