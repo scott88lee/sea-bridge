@@ -38,7 +38,6 @@ const uploadImage = multer({
 
 // ROUTES
 router.get('/', controller.index);
-router.post('/upload', controller.upload);
 
 router.post("/fileupload", (req, res) => {
     uploadImage(req, res, (err) => {
@@ -53,7 +52,7 @@ router.post("/fileupload", (req, res) => {
 
         if (req.file ) {
             console.log(req.body)
-            
+    
             console.log("File uploaded: " + req.file.filename);
             console.log(req.file)
             res.send("file disk upload success");
