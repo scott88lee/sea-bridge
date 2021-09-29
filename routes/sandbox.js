@@ -65,7 +65,7 @@ router.post("/fileupload", (req, res) => {
             
             var s3params = {
                 Bucket: process.env.BUCKET_NAME,
-                Key: req.body.session + "-" + req.body.sku + ext, // File name you want to save as in S3
+                Key: req.body.session + "-SKU" + req.body.sku + ext, // File name you want to save as in S3
                 Body: fileContent,
                 ACL: 'public-read'
             };
