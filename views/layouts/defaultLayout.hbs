@@ -14,13 +14,21 @@
 <body>
    <div class="ui fixed menu">
       <div class="ui container">
-         <a href="#">
-            <img class="logo" src="/images/logo.png" height="30" width="auto" style="margin-top:5px">
+         <a href="/">
+            <img class="logo" src="/images/logo.png" height="40" width="auto" style="margin-top:5px">
          </a>
-         <a href="#" class="item">SEA-Bridge</a>
-         <a href="#" class="item">Orders</a>
+         <a href="/" class="item">SEA-Bridge</a>
+         <div class="ui simple dropdown item">
+            Orders
+            <i class="dropdown icon"></i>
+            <div class="menu">
+               <a href="/orders" class="item">All Orders</a>
+               <a href="/orders/archive" class="item">Webhooks</a>
+            </div>
+         </div>
       </div>
    </div>
+
    <div class="ui container" id="app" style="margin-top: 60px;">
       {{{ body }}}
    </div>
