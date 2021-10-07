@@ -29,6 +29,7 @@ app.engine('hbs', Handlebars(hbsConfig));
 
 // ROUTES
 app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/api'));
 app.use('/users', require('./routes/users'));
 app.use('/orders', require('./routes/orders'));
 app.use('/packages', require('./routes/packages'));
