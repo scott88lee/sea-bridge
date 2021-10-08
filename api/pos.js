@@ -4,7 +4,7 @@ module.exports = {
 
   // Get session token from POS-API
   getSessionToken: async () => {
-    console.log("Getting POS session token.");
+    console.log("Getting session token.");
 
     let head = {
       "Content-Type": "application/json",
@@ -14,8 +14,8 @@ module.exports = {
 
     let body = {
       "isEncodingRequired": false,
-      userName: process.env.POSAUTH_USERNAME,
-      password: process.env.POSAUTH_PASSWORD
+      userName: process.env.SG_ONLINESTORE_USERNAME,
+      password: process.env.SG_ONLINESTORE_PW
     }
 
     let config = {
@@ -26,11 +26,10 @@ module.exports = {
     }
 
     try {
+      console.log(config)
       let response = await axios(config)
-      console.log("POS session token: " + response.data.sessionToken);
-
-      //next feature, cache the token.
-      return response.data
+      console.log("LK session token: " + response.data.sessionToken)
+      return response.data.sessionToken
     }
     catch (err) {
       console.log("Error: " + err)
@@ -39,7 +38,7 @@ module.exports = {
   },
 
   getProductDetail: async (POStoken, sku) => {
-    let URL = process.env.POSAPI_URL + '/products?q=' + req.sku;
+    let URL = process.env.POSAPI_URL + '/products?q=' + sku;
 
     let head = {
       'X-Lenskart-Session-Token': POStoken,
@@ -95,7 +94,7 @@ module.exports = {
     var result = {}
     var packageArray = JSONBody.packageArray;
     var customerPackage = JSONBody.customerPackage;
-    
+
     for (let value of packageArray) {
       //console.log('Inside for loop of map package pos');
       if (value.name == 'Thin Anti-Glare_sg' && customerPackage == 'Anti Glare' && (value.id == '60f5981d139df54fcc096501' || value.id == '60f5a4d6139df54fcc09660b' || value.id == '60f5a4cdc42cf4529837738d' || value.id == '60f598c752e9807d0861adad')) {

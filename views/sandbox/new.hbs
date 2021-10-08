@@ -1,0 +1,18 @@
+<form class="ui form" enctype="multipart/form-data" action="/api/sg/prescriptionupload" method="post">
+  <h4 class="ui dividing header">Upload Prescription</h4>
+  <div class="three fields">
+    <div class="field">
+      <label>SKU</label>
+      <input autocomplete="off" type="text" name="sku" tabindex="1" placeholder="140388" required>
+    </div>
+    <div class="field">
+      <label>Session</label>
+      <input autocomplete="off" type="text" name="session" tabindex="2" placeholder="a122-dkjflk1j-e1l2dfa" required>
+    </div>
+    <div class="field">
+      <label>Prescription Upload</label>
+      <input type="file" id="myFile" name="image">
+    </div>
+  </div>
+  <button class="ui button" tabindex="1">Upload</button>
+</form>

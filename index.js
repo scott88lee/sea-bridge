@@ -8,7 +8,6 @@ const app = express();
 // Public Folder and Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
 app.use(express.static('public'));
 
 // View engine setup
@@ -25,24 +24,23 @@ const hbsConfig = {
         }
     }
 }
-
 app.set('view engine', 'hbs');
 app.engine('hbs', Handlebars(hbsConfig));
 
 // ROUTES
 app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/api'));
 app.use('/users', require('./routes/users'));
 app.use('/orders', require('./routes/orders'));
 app.use('/packages', require('./routes/packages'));
 app.use('/webhooks', require('./routes/webhooks'));
+app.use('/sandbox', require('./routes/sandbox'));
 
 //404 Precessing
 app.get('*', (req, res) => {
     res.send('err404');
 });
 
-
 // LISTEN
 const port = process.env.HTTP_PORT || 3000;
-
 app.listen(port,  () => {console.log("HTTP on port: " + port)})
