@@ -102,7 +102,7 @@ module.exports = {
       let query = "SELECT * FROM shopify_webhook_orders WHERE zone='" + zone + "' AND shopify_order_number=" + orderNum + ";"
       try {
          let result = await db.query(query);
-         console.log(result)
+         //console.log(result)
 
          if (result.rows.length > 0) {
             return result.rows[0].raw_data;
