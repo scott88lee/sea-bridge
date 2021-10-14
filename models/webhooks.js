@@ -1,7 +1,7 @@
 const db = require('../config/db')
 
 module.exports = {
-   archiveWebhook : async (jsonBody) => {
+   archiveWebhook : async (zone, jsonBody) => {
       let id = jsonBody.id;      
       let ordNum = jsonBody.order_number;      
       console.log("Ord ID: " + id)
@@ -10,7 +10,7 @@ module.exports = {
       let timestamp = d.toUTCString();
       
       try {
-         let result = await db.query('INSERT INTO shopify_webhook_orders(shopify_order_id, shopify_order_number, raw_data, created_at, processed) VALUES($1, $2, $3, $4, $5)', [id, ordNum, jsonBody, timestamp, false])
+         let result = await db.query('INSERT INTO shopify_webhook_orders(shopify_order_id, shopify_order_number, raw_data, created_at, processed, zone) VALUES($1, $2, $3, $4, $5, $6)', [id, ordNum, jsonBody, timestamp, false, zone])
          console.log('Webhook archived at: ' + timestamp)
          return result;
       } catch (err) {
@@ -45,9 +45,9 @@ module.exports = {
       }
    },
 
-   getWebhookById: async (orderId) => {
+   getWebhookById: async (zone, orderId) => {
       try {
-         let str = "SELECT * FROM shopify_webhook_orders WHERE shopify_order_id=" + orderId + ";"
+         let str = "SELECT * FROM shopify_webhook_orders WHERE shopify_order_id=" + orderId + " AND zone= '" + zone + "';"
          let result = await db.query(str);
          
          if (result.rowCount > 0 ) {
