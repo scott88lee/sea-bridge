@@ -3,7 +3,7 @@ const orders = require('../models/orders')
 const helper = require('../helpers/orders')
 const JUNO = require('../api/juno');
 const POS = require('../api/pos');
-const axios = require('axios')
+const axios = require('axios');
 
 module.exports = {
    listArchive: async (req, res) => {

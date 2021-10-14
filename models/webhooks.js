@@ -96,5 +96,23 @@ module.exports = {
          console.log(err)
          return false;
       }
+   },
+
+   getBy: async (zone, orderNum) => {
+      let query = "SELECT * FROM shopify_webhook_orders WHERE zone='" + zone + "' AND shopify_order_number=" + orderNum + ";"
+      try {
+         let result = await db.query(query);
+         console.log(result)
+
+         if (result.rows.length > 0) {
+            return result.rows[0].raw_data;
+         } else {
+            return false;
+         }
+      } catch (err) {
+         console.log(query);
+         console.log("Error: ", err);
+         return false;
+      }
    }
 }
