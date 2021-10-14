@@ -3,16 +3,18 @@ const axios = require('axios');
 
 module.exports = {
     shopifyOrderCreate: async (req, res) => {
-
+        const zone = req.params.zone.toUpperCase();
         let body = req.body;
-        console.log("Recieving webhook: " + body.id);
+        console.log("Recieving " + ZONE + "webhook: " + body.id);
 
-        let exist = await webhooks.getWebhookById(body.id)
+        // Ignore and move on if webhook already exists.
+        let exist = await webhooks.getWebhookById(zone, body.id)
         if (exist) {
             console.log("Webhook already exist: 200 OK")
             res.send("200 OK");
         } else {
-            let savedWebhook = await webhooks.archiveWebhook(body);
+            //If webhook doesnt exist, proceed to save it to DB
+            let savedWebhook = await webhooks.archiveWebhook(zone, body);
 
             if (savedWebhook) {
                 console.log("Init parallel order processing")
