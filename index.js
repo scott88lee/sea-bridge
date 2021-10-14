@@ -32,6 +32,7 @@ app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/api'));
 app.use('/users', require('./routes/users'));
 app.use('/orders', require('./routes/orders'));
+app.use('/uploads', require('./routes/uploads'));
 app.use('/packages', require('./routes/packages'));
 app.use('/webhooks', require('./routes/webhooks'));
 app.use('/sandbox', require('./routes/sandbox'));
