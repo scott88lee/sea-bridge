@@ -5,7 +5,7 @@ module.exports = {
     shopifyOrderCreate: async (req, res) => {
         const zone = req.params.zone.toUpperCase();
         let body = req.body;
-        console.log("Recieving " + ZONE + "webhook: " + body.id);
+        console.log("Recieving " + zone + "webhook: " + body.id);
 
         // Ignore and move on if webhook already exists.
         let exist = await webhooks.getWebhookById(zone, body.id)

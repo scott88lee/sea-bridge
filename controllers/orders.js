@@ -87,6 +87,7 @@ module.exports = {
    },
 
    processOrder : async (req, res) => {
+      if (false) {
       let orderId = req.params.orderId;
 
       console.log("Start of order processing: " + orderId);
@@ -112,7 +113,8 @@ module.exports = {
          }
 
          let saveOrder = await orders.saveOrder(webhook.raw_data);
-      }
+         }
+      
       
       //match lens to frame
       //
@@ -123,6 +125,10 @@ module.exports = {
       // send order to POS
       let jsn = axios.get("https://bridge.lenskart.com/api/sg-prescription/85888838");
       console.log(jsn);
+
+      } else {
+         res.send('200 OK')
+      }
    },
 
    sendWH : async (req, res) => {
