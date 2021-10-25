@@ -38,12 +38,38 @@ const uploadImage = multer({
 }).single('image')
 
 // ROUTES
+router.post("/:zone/leadcapture", async (req, res) => {
+    const db = require('../config/db')
+    res.header("Access-Control-Allow-Origin", "*");
+    let zone = req.params.zone.toUpperCase();
+    
+    let mobile = req.body.number;
+    let email = req.body.email;
+    let d = new Date();
+    let timestamp = d.toUTCString();
+    
+    let query = "INSERT INTO leadcapture (zone, mobile_number, email, timestamp) VALUES ('"+ zone + "','" + mobile + "','" + email + "','" + timestamp +"');"
+    console.log(query)
+    try {
+        if (mobile && email) {
+            let result = await db.query(query);
+            console.log(result)
+            res.send({sucess:true, message:"Saved."})
+        } else {
+            res.send({success:false, message: "Missing mobile/email"})
+        }
+    } catch (err) {
+        console.log(err);
+        res.send({success:false, message:err})
+    }
+})
+
 
 router.post("/:zone/prescriptionUpload", (req, res) => {
-   let zone = req.params.zone.toUpperCase();
+    let zone = req.params.zone.toUpperCase();
     res.header("Access-Control-Allow-Origin", "*");
-    
-    uploadImage (req, res, (err) => {
+
+    uploadImage(req, res, (err) => {
         if (err) {
             if (err.code == "LIMIT_FILE_SIZE") {
                 return res.send(
@@ -52,16 +78,16 @@ router.post("/:zone/prescriptionUpload", (req, res) => {
             }
             return res.send(err)
         }
-        
+
         console.log("Request body: " + JSON.stringify(req.body));
 
         if (req.file && req.body.session && req.body.sku) {
             const awsBucketBaseurl = "https://3d-asset-lookr.s3-ap-southeast-1.amazonaws.com/";
             const s3 = new AWS.S3({ accessKeyId: process.env.AWS_S3_ID, secretAccessKey: process.env.AWS_S3_SECRET });
-            
+
             let fileContent = fs.readFileSync("temp/" + req.file.filename);
             let ext = path.extname(req.file.originalname);
-            
+
             var s3params = {
                 Bucket: process.env.BUCKET_NAME,
                 Key: "orderprescription/" + zone + "/" + req.body.session + "-SKU" + req.body.sku + ext, // File name you want to save as in S3
@@ -76,7 +102,7 @@ router.post("/:zone/prescriptionUpload", (req, res) => {
                             console.log(err)
                         }
                     });
-                    res.send({ success: false, errMsg: "S3 write error."})
+                    res.send({ success: false, errMsg: "S3 write error." })
                 } else {
                     fs.unlinkSync("temp/" + req.file.filename, (err) => {
                         if (err) {
@@ -84,7 +110,7 @@ router.post("/:zone/prescriptionUpload", (req, res) => {
                         }
                     })
                     console.log("S3 write success: " + JSON.stringify(data))
-                    res.send({success:true, url: data.Location});
+                    res.send({ success: true, url: data.Location });
                 }
             });
         } else {
