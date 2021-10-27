@@ -40,7 +40,7 @@ const uploadImage = multer({
 }).single('image')
 
 // ROUTES
-router.post("/:zone/leadcapture", cors(), async (req, res) => {
+router.post("/:zone/leadcapture", cors(), async (req, res, next) => {
     const db = require('../config/db')
     res.header("Access-Control-Allow-Origin", "*");
     let zone = req.params.zone.toUpperCase();
