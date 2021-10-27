@@ -4,6 +4,9 @@ const express = require('express');
 const Handlebars = require('express-handlebars');
 
 const app = express();
+app.use(cors())
+app.options('*', cors()) // include before other routes
+
  
 // Public Folder and Middleware
 app.use(express.json());

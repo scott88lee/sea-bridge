@@ -2,6 +2,8 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const express = require('express');
 const router = express.Router();
+var cors = require('cors')
+
 
 const path = require('path');
 const multer = require("multer");
@@ -38,7 +40,7 @@ const uploadImage = multer({
 }).single('image')
 
 // ROUTES
-router.post("/:zone/leadcapture", async (req, res) => {
+router.post("/:zone/leadcapture", cors(), async (req, res) => {
     const db = require('../config/db')
     res.header("Access-Control-Allow-Origin", "*");
     let zone = req.params.zone.toUpperCase();
