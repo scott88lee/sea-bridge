@@ -56,7 +56,7 @@ router.post("/:zone/leadcapture", cors(), async (req, res, next) => {
         if (mobile && email) {
             let result = await db.query(query);
             console.log(result)
-            res.send({sucess:true, message:"Saved."})
+            res.send({success:true, message:"Saved."})
         } else {
             res.send({success:false, message: "Missing mobile/email"})
         }
