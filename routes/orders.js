@@ -8,6 +8,6 @@ router.get('/process/:orderId', ordersController.processOrder);
 router.get('/sendWH', ordersController.sendWH);
 
 //Send Archived Webhook to URL
-router.post('/post/webhook', ordersController.postWebhook);
+router.post('/post/webhook/:zone', ordersController.postWebhook);
 
 module.exports = router;

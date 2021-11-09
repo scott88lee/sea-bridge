@@ -1,7 +1,7 @@
 $(document).ready(function(){
    $('.ui.accordion').accordion();
 
-   function sendWebhook(orderId) {
+   function sendWebhook123(orderId) {
       const url = '/orders/post/webhook'
       const target = document.getElementById(orderId).value
    

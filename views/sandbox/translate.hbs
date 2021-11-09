@@ -1,0 +1,34 @@
+<form class="ui form">
+   <h4 class="ui dividing header">Language translation</h4>
+   <div class="ui segment">
+      <div class="ui two column very relaxed grid">
+         <div class="column">
+            <label>Foreign input</label>
+            <textarea id="input" autocomplete="off" type="text" name="txtInput" tabindex="1" required></textarea><br><br>
+            <div id="translate" class="ui button" tabindex="2">Translate</div>
+         </div>
+         <div class="column">
+            <label>English output</label>
+            <textarea id="output"></textarea>
+         </div>
+      </div>
+      <div class="ui vertical divider">to</div>
+   </div>
+</form>
+
+<script type="text/javascript">
+   document.getElementById("translate").addEventListener("click", translate);
+
+   function translate() {
+      let input = document.getElementById("input").value;
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("output").value = this.responseText;
+         }
+      };
+      xhttp.open("POST", "/api/sg/translate", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("txtInput=" + input);
+   }
+</script>

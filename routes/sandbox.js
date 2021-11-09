@@ -40,8 +40,10 @@ const uploadImage = multer({
 
 // ROUTES
 router.get('/', controller.index);
+router.get("/translate", controller.translate);
 
-router.post("/fileupload", (req, res) => {
+
+router.post("/fileupload", (req, res) => { 
     res.header("Access-Control-Allow-Origin", "*");
     
     uploadImage (req, res, (err) => {

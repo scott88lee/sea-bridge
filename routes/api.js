@@ -122,4 +122,29 @@ router.post("/:zone/prescriptionUpload", (req, res) => {
     })
 });
 
+router.post("/:zone/translate", (req, res) => {
+    console.log("Route was called")
+    let zone = req.params.zone.toUpperCase();
+    res.header("Access-Control-Allow-Origin", "*");
+    console.log(req.body)
+
+    AWS.config.update({region: "ap-southeast-1"});
+
+    var translate = new AWS.Translate({ 
+            accessKeyId: process.env.AWS_TRANSLATE_ID,
+            secretAccessKey: process.env.AWS_TRANSLATE_SECRET
+        });
+    var params = {
+    SourceLanguageCode: 'auto',
+    TargetLanguageCode: 'en',
+    Text: req.body.txtInput
+    };
+
+    translate.translateText(params, function (err, data) {
+        if (err) console.log(err, err.stack); 
+        else res.send(data['TranslatedText'])
+    });
+
+})
+
 module.exports = router;

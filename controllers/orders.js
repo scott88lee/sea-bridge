@@ -65,11 +65,13 @@ module.exports = {
 
    postWebhook: async (req, res) => {
       try {
+         let zone = req.params.zone.toUpperCase();
          let orderId = req.body.id;
          
-         let webhook = await webhooks.getWebhookById(orderId);
+         let webhook = await webhooks.getWebhookById(zone, orderId);
          let URL = req.body.target;
 
+         console.log(webhook)
          // API call
          let response = await axios.post(URL, webhook.raw_data)
          
