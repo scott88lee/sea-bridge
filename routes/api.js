@@ -111,9 +111,10 @@ router.post("/:zone/leadcapture", cors(), async (req, res, next) => {
 
     const date = new Date();
     const timestamp = date.toUTCString();
-    const query = `INSERT INTO leadcapture (zone, mobile_number, email, timestamp) VALUES ('${zone}', '${
+    const tags = `${tag}`;
+    const query = `INSERT INTO leadcapture (zone, mobile_number, email, timestamp, tags) VALUES ('${zone}', '${
       mobile || ""
-    }', '${email || ""}', '${timestamp}');`;
+    }', '${email || ""}', '${timestamp}', '${tags}');`;
 
     await db.query(query);
 
