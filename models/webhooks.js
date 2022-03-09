@@ -18,6 +18,20 @@ module.exports = {
          return false;
       }
    },
+
+   archiveOrder : async (zone, jsonBody) => {
+      let d = new Date();
+      let timestamp = d.toUTCString();
+      
+      try {
+         let result = await db.query('INSERT INTO mobile_webhook_orders(raw_data, created_at, zone) VALUES($1, $2, $3)', [jsonBody, timestamp, zone])
+         console.log('Webhook archived at: ' + timestamp)
+         return result;
+      } catch (err) {
+         console.log("Error archiving webhook: " + err)
+         return false;
+      }
+   },
    
    getWebhookCount: async () => {
       try {

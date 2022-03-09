@@ -4,8 +4,6 @@ const Webhooks = require('../controllers/webhooks');
 
 // ROUTES
 router.post('/:zone/shopify_order_creation', Webhooks.shopifyOrderCreate);
-
-router.post('/:zone/mobile_orders', Webhooks.saveMobileOrders);
-
+router.post('/:zone/app_orders', Webhooks.saveMobileOrder);
 
 module.exports = router;

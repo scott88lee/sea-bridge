@@ -47,8 +47,20 @@ module.exports = {
         }
     },
 
-    saveMobileOrders: async (req, res) => {
-        // Multiple zone handling
-        res.send('OK')
+    saveMobileOrder: async (req, res) => {
+        const zone = req.params.zone.toUpperCase();
+        let body = req.body;
+        console.log("Recieving " + zone + "webhook: ");
+
+        // Ignore and move on if webhook already exists.
+        let savedWebhook = await webhooks.archiveOrder(zone, body);
+
+        if (savedWebhook) {
+            console.log("Response send: 200 OK")
+            res.send("200 OK");
+        } else {
+            res.status(503)
+            res.send(503)
+        }
     }
 }
