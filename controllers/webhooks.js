@@ -50,7 +50,7 @@ module.exports = {
     saveMobileOrder: async (req, res) => {
         const zone = req.params.zone.toUpperCase();
         let body = req.body;
-        console.log("Recieving " + zone + "webhook: ");
+        console.log("Recieving " + zone + "mobile webhook.");
 
         // Ignore and move on if webhook already exists.
         let savedWebhook = await webhooks.archiveOrder(zone, body);
