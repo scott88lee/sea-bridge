@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const webHooksController = require('../controllers/webHooks');
+const Webhooks = require('../controllers/webhooks');
 
 // ROUTES
-router.post('/:zone/shopify_order_creation', webHooksController.shopifyOrderCreate);
+router.post('/:zone/shopify_order_creation', Webhooks.shopifyOrderCreate);
 
-router.get('/:zone/:orderNumber', webHooksController.getWebhookByOrderNumber);
+router.post('/:zone/mobile_orders', Webhooks.saveMobileOrders);
 
 
 module.exports = router;

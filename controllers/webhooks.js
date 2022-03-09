@@ -46,4 +46,9 @@ module.exports = {
             res.send(false);
         }
     },
+
+    saveMobileOrders: async (req, res) => {
+        // Multiple zone handling
+        res.send('OK')
+    }
 }
