@@ -13,12 +13,12 @@ const storage = multer.diskStorage({
     cb(null, "temp/"); // here we specify the destination . in this case i specified the current directory
   },
   filename: function (req, file, cb) {
-    console.log(file);
+    console.log("File", file);
     cb(null, file.originalname); // here we specify the file saving name . in this case i specified the original file name
   },
 });
 
-const maxSize = 2 * 1024 * 1024; //In Bytes - num * mega * kilo
+const maxSize = 5 * 1024 * 1024; //In Bytes - num * mega * kilo
 const uploadImage = multer({
   storage: storage,
   limits: { fileSize: maxSize },
@@ -130,14 +130,14 @@ router.post("/:zone/leadcapture", cors(), async (req, res, next) => {
   }
 });
 
-router.post("/:zone/prescriptionUpload", (req, res) => {
+router.post("/:zone/prescriptionUpload", cors(), (req, res) => {
   let zone = req.params.zone.toUpperCase();
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");  
 
   uploadImage(req, res, (err) => {
     if (err) {
       if (err.code == "LIMIT_FILE_SIZE") {
-        return res.send({ success: false, errMsg: "File size over 2MB." });
+        return res.send({ success: false, errMsg: "File size over 5MB." });
       }
       return res.send(err);
     }
@@ -145,26 +145,23 @@ router.post("/:zone/prescriptionUpload", (req, res) => {
     console.log("Request body: " + JSON.stringify(req.body));
 
     if (req.file && req.body.session && req.body.sku) {
-      const awsBucketBaseurl =
-        "https://3d-asset-lookr.s3-ap-southeast-1.amazonaws.com/";
       const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_S3_ID,
         secretAccessKey: process.env.AWS_S3_SECRET,
       });
 
       let fileContent = fs.readFileSync("temp/" + req.file.filename);
-      let ext = path.extname(req.file.originalname);
+
+      const extension = path.extname(req.file.originalname);
+      const filename = `order-prescription/${zone}/${req.body.session}-SKU${req.body.sku}${extension}`
+      const contentType = req.file.mimetype
+
+      console.log("Req file", req.file)
 
       var s3params = {
         Bucket: process.env.BUCKET_NAME,
-        Key:
-          "orderprescription/" +
-          zone +
-          "/" +
-          req.body.session +
-          "-SKU" +
-          req.body.sku +
-          ext, // File name you want to save as in S3
+        Key: filename,
+        ContentType: contentType,
         Body: fileContent,
         ACL: "public-read",
       };
