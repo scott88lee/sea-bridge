@@ -24,7 +24,7 @@ module.exports = {
       let timestamp = d.toUTCString();
       
       try {
-         let result = await db.query('INSERT INTO mobile_webhook_orders(raw_data, created_at, zone) VALUES($1, $2, $3)', [jsonBody, timestamp, zone])
+         let result = await db.query('INSERT INTO mobile_webhook_orders(raw_body, created_at, zone) VALUES($1, $2, $3)', [jsonBody, timestamp, zone])
          console.log('Webhook archived at: ' + timestamp)
          return result;
       } catch (err) {
