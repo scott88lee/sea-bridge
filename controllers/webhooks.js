@@ -57,10 +57,18 @@ module.exports = {
 
         if (savedWebhook) {
             console.log("Response send: 200 OK")
-            res.send("200 OK");
+            res.send("[accepted]");
         } else {
             res.status(503)
             res.send(503)
         }
+    },
+
+    showMobileOrders: async (req, res) => {
+        //For Pagination
+    
+        let result = await webhooks.getAppWebhooks();
+        
+        res.send(result)
     }
 }

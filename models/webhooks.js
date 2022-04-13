@@ -128,5 +128,23 @@ module.exports = {
          console.log("Error: ", err);
          return false;
       }
+   },
+
+   getAppWebhooks: async (zone) => {
+      try {
+         let result = await db.query("SELECT * FROM mobile_webhook_orders;");
+         console.log(result);
+         
+            if (result.rowCount > 0){
+               return result.rows;
+            }
+         } catch (err) {
+            console.log(err)
+            return false;
+         }
+   },
+
+   getApp: async (zone) => {
+      
    }
 }
