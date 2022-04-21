@@ -65,10 +65,64 @@ module.exports = {
     },
 
     showMobileOrders: async (req, res) => {
-        //For Pagination
-    
-        let result = await webhooks.getAppWebhooks();
+        try {
+            let result = await webhooks.getAppWebhooks();
+            let data = result.rows;
+            res.send(data);
+        } catch (err){
+            console.log("Error: ", err)
+            res.send(false);
+        }
+    },
+
+    testOrder: async (req, res) => {
+        function findUnique(array) {
+            let newSet = new Set(array);
+            return [...newSet];
+        }
+
+        // const JUNO = require('../api/juno');
+        // let _data = await JUNO.getSessionToken();
+        // let jToken = _data.result.id;
+
+        // function temp(){
+        //     let data = []
+        // for (let i = 0; i < result.rows.length; i++) {
+        //     data.push(result.rows[i].raw_body)
+        // }
+
         
-        res.send(result)
+        // console.log("Juno Session token: " + jToken);
+
+        // let arr = []
+        // let appOrders = [];
+        // for (let i = 0; i < data.length; i++) {
+        //     if (data[i].notificationItems.length > 0) {
+        //         let item = data[i].notificationItems[0].NotificationRequestItem;
+        //         if (item.eventCode == "AUTHORISATION") {
+        //             console.log(item.success)
+        //             if (item.success == "true") {
+        //                 console.log("Success: " + JSON.stringify(item))
+        //                 arr.push(item);
+        //                 appOrders.push(Number(item.merchantReference.split("-")[0]))
+        //             }
+        //         }
+        //     }
+        // }
+
+        // let unique = [...new Set(arr)];
+        // console.log(unique);
+
+        // let asd = await JUNO.getOrder(jToken, appOrders[0]);
+        // console.log(asd);
+
+        // paymentMethod = [ 'grabpay_SG', 'amex', 'visa', 'mc' ]
+
+        // res.send(data)
+        // }
+
+        let { rows } = await webhooks.getAppWebhooks();
+        console.log(rows)
+        res.send('Ok')
     }
 }

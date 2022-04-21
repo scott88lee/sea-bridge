@@ -8,4 +8,6 @@ router.post('/:zone/app_orders', Webhooks.saveMobileOrder);
 
 router.get('/:zone/apporders', Webhooks.showMobileOrders)
 
+router.get("/test", Webhooks.testOrder);
+
 module.exports = router;
