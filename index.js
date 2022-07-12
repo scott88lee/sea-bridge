@@ -1,7 +1,8 @@
 // IMPORTS
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const Handlebars = require('express-handlebars');
+const db = require('./config/db');
 var cors = require('cors')
 
 const app = express();
@@ -20,10 +21,10 @@ const hbsConfig = {
     extname: 'hbs',
     defaultLayout: 'defaultLayout',
     helpers:{
-        equal : function(a,b){
+        equal : (a,b) => {
             return (a==b) ? true : false
         },
-        notEqual : function(a,b){
+        notEqual : (a,b) => {
             return (a!=b) ? true : false
         }
     }
@@ -41,11 +42,25 @@ app.use('/packages', require('./routes/packages'));
 app.use('/webhooks', require('./routes/webhooks'));
 app.use('/sandbox', require('./routes/sandbox'));
 
+
+app.post('/proto', async (req,res) => {
+    console.log(req.body)
+    // Orders = db.query().collection('orders');
+    // await Orders.insertOne({name:"asd"})
+
+    Users = db.query().collection('users')
+    await Users.insertOne({name:"adas"})
+    res.send('ok')
+})
+
 //404 Precessing
 app.get('*', (req, res) => {
     res.send('err404');
 });
 
 // LISTEN
-const port = process.env.HTTP_PORT || 3000;
-app.listen(port,  () => {console.log("HTTP on port: " + port)})
+const PORT = process.env.HTTP_PORT || 3000;
+
+db.connect(() => {
+    app.listen(PORT, () => console.log(`Listening port: ${PORT}`))
+});

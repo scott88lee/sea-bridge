@@ -1,25 +1,34 @@
-const pg = require('pg');
+let { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-const dbConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PWD,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME, //soundalchemymusic inventory management accounting
-  port: process.env.DB_PORT
+// preprod
+const uri = process.env.DB_HOST || console.log("Missing DB Env")
+
+let mongodb;
+let client;
+
+function connect(callback) {
+    MongoClient.connect(uri, (err, db) => {
+        if (err) { console.log(err) }
+        else {
+            console.log('MongoDB connected.')
+            client = db;
+            mongodb = db.db('test');
+            callback();
+        }
+    });
+}
+
+function query() {
+    return mongodb;
+}
+
+function mongoClient() {
+    return client;
+}
+
+module.exports = {
+    connect,
+    query,
+    mongoClient
 };
-
-const dev = {
-  user: 'test',
-  password: 'test',
-  host: 'test.test.com',
-  database: 'test',
-  port: 5432
-};
-
-const pool = new pg.Pool( (process.env.NODE_ENV=='dev') ? dev : dbConfig);
-
-pool.on('error', function (err) {
-  console.log('idle client error', err.message, err.stack);
-});
-
-module.exports = pool;
